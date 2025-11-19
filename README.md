@@ -18,7 +18,7 @@ git clone https://github.com/Hajimbo04/Laptop-SMS.git
 cd abu-repair-system
 ```
 
-3. Install Dependencies
+2. Install Dependencies
 Only one external library is needed:
 
 ```python
