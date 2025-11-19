@@ -36,7 +36,7 @@ If users.csv isn’t found, the system will auto-create these accounts:
 | Customer | cust | cust123 | Can track repair progress & download receipts. |
 
 ## Project Structure
-main.py      → GUI & view logic
-backend.py   → Data logic, CSV handling, authentication
-users.csv    → User accounts
-jobs.csv     → Repair tickets / job data
+- main.py      → GUI & view logic
+- backend.py   → Data logic, CSV handling, authentication
+- users.csv    → User accounts
+- jobs.csv     → Repair tickets / job data
