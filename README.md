@@ -12,10 +12,13 @@ A simple, modern desktop app to help manage a laptop repair shop. Built with Pyt
 
 ## Installation & Setup
 1. Clone the Repository
+
+```bash
 git clone https://github.com/Hajimbo04/Laptop-SMS.git
 cd abu-repair-system
+```
 
-2. Install Dependencies
+3. Install Dependencies
 Only one external library is needed:
 
 ```python
@@ -28,7 +31,7 @@ python main.py
 ## Default Login Credentials
 If users.csv isn’t found, the system will auto-create these accounts:
 
-| Role | Username | Password | Desc |
+| Role | Username | Password | Description |
 | :--- | :--- | :--- | :--- |
 | Admin | admin | admin123 |  Manages staff and views financial reports. |
 | Technician | tech | tech123 | Works on repairs and updates job status. |
