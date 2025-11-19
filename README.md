@@ -25,8 +25,7 @@ Only one external library is needed:
 pip install customtkinter
 ```
 
-3. Run the App
-python main.py
+3. Run main.py
 
 ## Default Login Credentials
 If users.csv isn’t found, the system will auto-create these accounts:
