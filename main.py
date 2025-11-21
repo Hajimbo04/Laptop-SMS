@@ -4,7 +4,7 @@ from tkinter import ttk, filedialog
 from datetime import datetime
 import backend  
 
-# Main App
+# App
 class RepairApp(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -25,7 +25,7 @@ class RepairApp(ctk.CTk):
         ctk.set_default_color_theme("blue")
         
         self.current_user = {} 
-        self.current_toast = None # Keep track so we don't overlap toasts
+        self.current_toast = None 
         self.setup_styles()
         self.container = ctk.CTkFrame(self)
         self.container.pack(fill="both", expand=True)
@@ -99,11 +99,11 @@ class BaseView(ctk.CTkFrame):
                             command=lambda: self.controller.show_view(DashboardView))
         btn.pack(anchor="w", padx=20, pady=(20, 0))
 
-
-#  View Classes
+# Classes
 class LoginView(BaseView):
     def __init__(self, parent, controller):
         super().__init__(parent, controller)
+        self.login_attempts = 0
         
         center_box = ctk.CTkFrame(self, width=500, height=400, corner_radius=15)
         center_box.place(relx=0.5, rely=0.5, anchor="center")
@@ -128,10 +128,15 @@ class LoginView(BaseView):
         if role:
             self.controller.current_user = {'username': u, 'role': role, 'name': name}
             self.controller.show_view(DashboardView)
-            self.controller.show_toast(f"Welcome back, {name}!") # Login Success Toast
         else:
-            self.controller.show_error("Login Failed", "Invalid Credentials")
-
+            self.login_attempts += 1
+            remaining = 3 - self.login_attempts
+            
+            if remaining <= 0:
+                self.controller.show_error("Login Failed", "Max attempts reached. Exiting.")
+                self.controller.destroy() # Close the app
+            else:
+                self.controller.show_error("Login Failed", f"Invalid Credentials. {remaining} attempts remaining.")
 
 class DashboardView(BaseView):
     def __init__(self, parent, controller):
@@ -244,7 +249,6 @@ class DashboardView(BaseView):
         ctk.CTkLabel(stats_box, text=str(stat2_val), font=("Arial", 50, "bold"), text_color=stat2_color).pack()
         ctk.CTkLabel(stats_box, text=stat2_lbl, font=("Arial", 14)).pack()
 
-
 class RegisterView(BaseView):
     def __init__(self, parent, controller, role_to_register):
         super().__init__(parent, controller)
@@ -280,7 +284,6 @@ class RegisterView(BaseView):
             self.controller.show_toast(f"Success! {self.role} registered.")
         else:
             self.controller.show_error("Registration Failed", msg)
-
 
 class PaymentListView(BaseView):
     def __init__(self, parent, controller):
@@ -360,7 +363,6 @@ class PaymentListView(BaseView):
         job_dict = next((j for j in self.all_jobs if str(j['job_id']) == job_id), None)
         self.controller.show_view(ReceiptView, job_data=job_dict)
 
-
 class ReceiptView(BaseView):
     def __init__(self, parent, controller, job_data):
         super().__init__(parent, controller)
@@ -410,7 +412,6 @@ class ReceiptView(BaseView):
             self.controller.show_toast(f"Receipt Saved: {fname}") # UX FIX: Toast instead of popup
         except Exception as e:
             self.controller.show_error("Error", str(e))
-
 
 class TechBoardView(BaseView):
     def __init__(self, parent, controller):
@@ -484,7 +485,6 @@ class TechBoardView(BaseView):
         job_dict = next((j for j in self.all_jobs if str(j['job_id']) == job_id), None)
         self.controller.show_view(CompleteJobView, job_dict=job_dict)
 
-
 class CompleteJobView(BaseView):
     def __init__(self, parent, controller, job_dict):
         super().__init__(parent, controller)
@@ -515,7 +515,6 @@ class CompleteJobView(BaseView):
             self.controller.show_toast("Job marked as Completed!") 
         else:
             self.controller.show_error("Error", msg)
-
 
 class CustomerRepairsView(BaseView):
     def __init__(self, parent, controller):
@@ -612,7 +611,6 @@ class CustomerRepairsView(BaseView):
         except Exception as e:
             self.controller.show_error("Save Error", str(e))
 
-
 class ChangeServiceView(BaseView):
     def __init__(self, parent, controller, job_dict):
         super().__init__(parent, controller)
@@ -646,7 +644,6 @@ class ChangeServiceView(BaseView):
             self.controller.show_toast(msg) 
         else:
             self.controller.show_error("Error", msg)
-
 
 class NewJobView(BaseView):
     def __init__(self, parent, controller):
@@ -696,7 +693,6 @@ class NewJobView(BaseView):
         else:
             self.controller.show_error("Error", msg)
 
-
 class MonthlyReportView(BaseView):
     def __init__(self, parent, controller):
         super().__init__(parent, controller)
@@ -728,7 +724,6 @@ class MonthlyReportView(BaseView):
         for s_id, count in counts.items():
             name = backend.SERVICES.get(s_id, "Unknown")
             ctk.CTkLabel(self.area, text=f"{count}x  {name}", anchor="w").pack(fill="x", padx=50)
-
 
 class UpdateProfileView(BaseView):
     def __init__(self, parent, controller):
