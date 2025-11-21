@@ -496,20 +496,32 @@ class CompleteJobView(BaseView):
         center.place(relx=0.5, rely=0.5, anchor="center")
         
         ctk.CTkLabel(center, text=f"Completing Job #{self.job['job_id']}", font=("Arial", 22, "bold")).pack(pady=20, padx=50)
-        ctk.CTkLabel(center, text="Enter Notes:").pack(anchor="w", padx=30)
-        
+        ctk.CTkLabel(center, text="Collection Date (YYYY-MM-DD):").pack(anchor="w", padx=30)
+        self.date_entry = ctk.CTkEntry(center, width=400)
+        self.date_entry.pack(pady=(0, 10), padx=30)
+        self.date_entry.insert(0, datetime.now().strftime("%Y-%m-%d"))
+
+        ctk.CTkLabel(center, text="Technician Notes / Description:").pack(anchor="w", padx=30)
         self.txt = ctk.CTkTextbox(center, width=400, height=200)
         self.txt.pack(pady=10, padx=30)
         if self.job['technician_notes'] != "N/A": self.txt.insert("1.0", self.job['technician_notes'])
         
-        ctk.CTkButton(center, text="Submit", width=400, height=40, fg_color="green", command=self.submit).pack(pady=20)
+        ctk.CTkButton(center, text="Submit Completion", width=400, height=40, fg_color="green", command=self.submit).pack(pady=20)
 
     def submit(self):
         notes = self.txt.get("1.0", "end-1c").strip()
+        date_val = self.date_entry.get().strip()
+
         if not notes:
-            self.controller.show_error("Error", "Notes required")
+            self.controller.show_error("Error", "Notes/Description required")
             return
-        success, msg = backend.update_job_completion(self.job['job_id'], notes)
+        
+        if not date_val:
+            self.controller.show_error("Error", "Collection Date required")
+            return
+
+        success, msg = backend.update_job_completion(self.job['job_id'], notes, date_val)
+        
         if success:
             self.controller.show_view(TechBoardView)
             self.controller.show_toast("Job marked as Completed!") 

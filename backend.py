@@ -194,7 +194,10 @@ def get_jobs_for_customer(customer_username):
     all_jobs = get_all_jobs()
     return [job for job in all_jobs if job['customer_username'] == customer_username]
 
-def update_job_completion(job_id_to_update, new_notes):
+def update_job_completion(job_id_to_update, new_notes, collection_date):
+    """
+    Updates the job status to Completed and sets the manual collection date.
+    """
     jobs_data = []
     job_found = False
 
@@ -205,7 +208,7 @@ def update_job_completion(job_id_to_update, new_notes):
             for row in reader:
                 if row['job_id'] == str(job_id_to_update):
                     row['technician_notes'] = new_notes
-                    row['date_completed'] = datetime.now().strftime("%Y-%m-%d")
+                    row['date_completed'] = collection_date 
                     row['status'] = 'Completed'
                     job_found = True
                 jobs_data.append(row)
