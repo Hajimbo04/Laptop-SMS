@@ -1,5 +1,5 @@
 username,password,name,phone,role
-admin,admin123,Default Admin,0123456789,Admin
-recep,recep123,Receptionist Ali,0122223333,Receptionist
-tech,tech123,Technician Abu,0144445555,Technician
-cust,cust123,Customer Siti,0166667777,Customer
+admin,admin123,Admin,0123456789,Admin
+recep,recep123,Ali,0122223333,Receptionist
+tech,tech123,Abu,0144445555,Technician
+cust,cust123,Siti,0166667777,Customer

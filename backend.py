@@ -44,10 +44,10 @@ def check_files():
                 writer = csv.writer(f)
                 writer.writerow(['username', 'password', 'name', 'phone', 'role'])
                 # Default users
-                writer.writerow(['admin', 'admin123', 'Default Admin', '0123456789', 'Admin'])
-                writer.writerow(['recep', 'recep123', 'Receptionist Ali', '0122223333', 'Receptionist'])
-                writer.writerow(['tech', 'tech123', 'Technician Abu', '0144445555', 'Technician'])
-                writer.writerow(['cust', 'cust123', 'Customer Siti', '0166667777', 'Customer'])
+                writer.writerow(['admin', 'admin123', 'Admin', '0123456789', 'Admin'])
+                writer.writerow(['recep', 'recep123', 'Ali', '0122223333', 'Receptionist'])
+                writer.writerow(['tech', 'tech123', 'Abu', '0144445555', 'Technician'])
+                writer.writerow(['cust', 'cust123', 'Siti', '0166667777', 'Customer'])
 
         if not os.path.exists(JOBS_FILE):
             with open(JOBS_FILE, 'w', newline='', encoding='utf-8') as f:
